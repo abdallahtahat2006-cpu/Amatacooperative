@@ -1,0 +1,80 @@
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+import { ScrollToTop } from './components/ScrollToTop';
+
+import { Home } from './pages/Home';
+import { About } from './pages/About';
+import { Goals } from './pages/Goals';
+import { Governance } from './pages/Governance';
+import { Membership } from './pages/Membership';
+import { Contact } from './pages/Contact';
+
+// Dynamic Document Title Updater
+const PageTitleManager: React.FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const titles: Record<string, string> = {
+      '/': 'تعاونية عمّتا | متعددة الأغراض / محدودة المسؤولية',
+      '/about': 'عن التعاونية | تعاونية عمّتا',
+      '/goals': 'غاياتنا (14 غاية معتمدة) | تعاونية عمّتا',
+      '/governance': 'الهيكل التنظيمي | تعاونية عمّتا',
+      '/membership': 'العضوية والانتساب | تعاونية عمّتا',
+      '/contact': 'تواصل معنا | تعاونية عمّتا',
+    };
+
+    const currentTitle = titles[pathname] || 'تعاونية عمّتا متعددة الأغراض محدودة المسؤولية';
+    document.title = currentTitle;
+  }, [pathname]);
+
+  return null;
+};
+
+// 404 Not Found Page Component
+const NotFound: React.FC = () => (
+  <div className="py-24 sm:py-32 bg-surface-alt text-center">
+    <div className="max-w-md mx-auto px-4 space-y-4">
+      <span className="text-4xl font-mono font-bold text-primary-700 block">404</span>
+      <h1 className="text-2xl font-bold text-primary-950">الصفحة غير موجودة</h1>
+      <p className="text-sm text-ink-secondary">
+        عذراً، الرابط الذي تحاول الوصول إليه غير متاح.
+      </p>
+      <div className="pt-2">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold bg-primary-700 text-white hover:bg-primary-800 transition-colors text-sm shadow-subtle"
+        >
+          <span>العودة إلى الصفحة الرئيسية</span>
+        </Link>
+      </div>
+    </div>
+  </div>
+);
+
+export function App() {
+  return (
+    <Router>
+      <ScrollToTop />
+      <PageTitleManager />
+      <div className="min-h-screen flex flex-col bg-white text-ink-primary font-sans antialiased selection:bg-accent-100 selection:text-primary-800 overflow-x-clip w-full">
+        <Header />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/goals" element={<Goals />} />
+            <Route path="/governance" element={<Governance />} />
+            <Route path="/membership" element={<Membership />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
