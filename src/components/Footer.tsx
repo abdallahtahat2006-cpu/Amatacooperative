@@ -40,9 +40,7 @@ export const Footer: React.FC = () => {
               {language === 'ar' ? COOPERATIVE_INFO.aboutSummary : COOPERATIVE_INFO.aboutSummaryEn}
             </p>
 
-            <p className="text-xs text-accent-300 pt-1">
-              {t.coopQuote}
-            </p>
+
           </div>
 
           {/* Quick Links Column */}
