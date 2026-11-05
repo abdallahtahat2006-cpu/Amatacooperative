@@ -293,44 +293,37 @@ export const Governance: React.FC = () => {
               return (
                 <div
                   key={comm.id}
-                  className="bg-white rounded-2xl p-6 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all flex flex-col justify-between"
+                  className="bg-white rounded-2xl p-6 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all space-y-4"
                 >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-xl bg-primary-50 text-primary-700 flex items-center justify-center">
-                        <IconComp className="w-5 h-5 text-accent-600" />
-                      </div>
-                      <span className="text-xs font-bold text-ink-muted bg-surface-alt px-2.5 py-1 rounded-md border border-surface-border">
-                        {comm.id}
-                      </span>
+                  <div className="flex items-center justify-between">
+                    <div className="w-11 h-11 rounded-xl bg-primary-50 text-primary-700 flex items-center justify-center">
+                      <IconComp className="w-5 h-5 text-accent-600" />
                     </div>
-
-                    <h3 className="text-lg font-bold text-primary-950">
-                      {language === 'ar' ? comm.name : comm.nameEn}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-                      {language === 'ar' ? comm.roleDescription : comm.roleDescriptionEn}
-                    </p>
-
-                    <div className="space-y-2 pt-2 border-t border-surface-border/60">
-                      <span className="block text-xs font-bold text-primary-800">
-                        {t.govKeyTasks}
-                      </span>
-                      <ul className="space-y-1.5 text-xs text-ink-secondary">
-                        {responsibilities.map((resp, rIdx) => (
-                          <li key={rIdx} className="flex items-start gap-1.5">
-                            <span className="text-accent-500 font-bold">•</span>
-                            <span>{resp}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <span className="text-xs font-bold text-ink-muted bg-surface-alt px-2.5 py-1 rounded-md border border-surface-border">
+                      {comm.id}
+                    </span>
                   </div>
 
-                  <div className="pt-4 mt-4 border-t border-surface-border text-[11px] text-ink-muted flex items-center justify-between">
-                    <span>{language === 'ar' ? 'جميع اللجان استشارية توصي ولا تُلزم' : 'Advisory / Non-binding recommendations'}</span>
-                    <span className="text-primary-700 font-medium">{language === 'ar' ? comm.articleRef : comm.articleRefEn}</span>
+                  <h3 className="text-lg font-bold text-primary-950">
+                    {language === 'ar' ? comm.name : comm.nameEn}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+                    {language === 'ar' ? comm.roleDescription : comm.roleDescriptionEn}
+                  </p>
+
+                  <div className="space-y-2 pt-2 border-t border-surface-border/60">
+                    <span className="block text-xs font-bold text-primary-800">
+                      {t.govKeyTasks}
+                    </span>
+                    <ul className="space-y-1.5 text-xs text-ink-secondary">
+                      {responsibilities.map((resp, rIdx) => (
+                        <li key={rIdx} className="flex items-start gap-1.5">
+                          <span className="text-accent-500 font-bold">•</span>
+                          <span>{resp}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               );
