@@ -4,7 +4,7 @@ interface SectionHeadingProps {
   badge?: string;
   title: string;
   subtitle?: string;
-  align?: 'center' | 'right';
+  align?: 'center' | 'start' | 'right';
   className?: string;
 }
 
@@ -19,7 +19,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   return (
     <div
       className={`mb-10 sm:mb-12 ${
-        isCenter ? 'text-center mx-auto max-w-3xl' : 'text-right max-w-3xl'
+        isCenter ? 'text-center mx-auto max-w-3xl' : 'text-start max-w-3xl'
       } ${className}`}
     >
       <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary-950 tracking-tight leading-snug">

@@ -48,7 +48,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"IBM Plex Sans Arabic"', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"IBM Plex Sans Arabic"', '"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        arabic: ['"IBM Plex Sans Arabic"', 'system-ui', '-apple-system', 'sans-serif'],
+        english: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
         'subtle': '0 1px 3px 0 rgba(23, 79, 96, 0.05), 0 1px 2px -1px rgba(23, 79, 96, 0.05)',

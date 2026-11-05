@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { Calculator, MessageSquare, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { Calculator, MessageSquare, ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { COOPERATIVE_INFO } from '../data/cooperativeData';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export const ShareCalculator: React.FC = () => {
   const [shares, setShares] = useState<number>(1000);
+  const { language, isRTL } = useLanguage();
+  const t = translations[language];
+  const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   const shareValue = 1; // 1 JOD per share
   const totalShareCost = shares * shareValue;
@@ -14,7 +19,11 @@ export const ShareCalculator: React.FC = () => {
 
   const presets = [500, 1000, 2500, 5000, 10000, 40000];
 
-  const customWhatsAppText = `السلام عليكم، أود الاستفسار عن شروط الاكتتاب بعدد (${shares.toLocaleString('ar-JO')} سهم) بقيمة إجمالية (${totalShareCost.toLocaleString('ar-JO')} دينار) وفق النظام الأساسي لتعاونية عمتا.`;
+  const locale = isRTL ? 'ar-JO' : 'en-US';
+
+  const customWhatsAppText = language === 'ar'
+    ? `السلام عليكم، أود الاستفسار عن شروط الاكتتاب بعدد (${shares.toLocaleString('ar-JO')} سهم) بقيمة إجمالية (${totalShareCost.toLocaleString('ar-JO')} دينار) وفق النظام الأساسي لتعاونية عمتا.`
+    : `Hello, I would like to inquire about subscribing to (${shares.toLocaleString('en-US')} shares) with a total value of (${totalShareCost.toLocaleString('en-US')} JOD) under Ammata Cooperative Bylaws.`;
 
   return (
     <div className="bg-white rounded-2xl border border-surface-border shadow-card p-6 sm:p-8 lg:p-10">
@@ -24,10 +33,10 @@ export const ShareCalculator: React.FC = () => {
         </div>
         <div>
           <h3 className="text-xl font-bold text-primary-950">
-            حاسبة الاكتتاب الحسابية
+            {t.calcTitle}
           </h3>
           <p className="text-xs sm:text-sm text-ink-secondary">
-            احتساب تقديري لقيمة الأسهم والدفعة الأولى وفق شروط الاكتتاب المعتمدة
+            {t.calcSubtitle}
           </p>
         </div>
       </div>
@@ -38,10 +47,10 @@ export const ShareCalculator: React.FC = () => {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label htmlFor="share-range" className="text-sm font-semibold text-primary-900">
-                عدد الأسهم:
+                {t.calcSharesCountLabel}
               </label>
               <span className="text-lg font-bold text-primary-700">
-                {shares.toLocaleString('ar-JO')} سهم
+                {shares.toLocaleString(locale)} {t.calcSharesUnit}
               </span>
             </div>
 
@@ -57,15 +66,15 @@ export const ShareCalculator: React.FC = () => {
             />
 
             <div className="flex justify-between text-xs text-ink-muted mt-1.5">
-              <span>الحد الأدنى: 500 سهم</span>
-              <span>الحد الأقصى: 40,000 سهم</span>
+              <span>{t.calcMinLabel}</span>
+              <span>{t.calcMaxLabel}</span>
             </div>
           </div>
 
           {/* Quick Preset Buttons */}
           <div>
             <span className="block text-xs font-semibold text-ink-secondary mb-2">
-              خيارات سريعة لعدد الأسهم:
+              {t.calcQuickPresets}
             </span>
             <div className="flex flex-wrap gap-2">
               {presets.map((count) => (
@@ -73,31 +82,43 @@ export const ShareCalculator: React.FC = () => {
                   key={count}
                   type="button"
                   onClick={() => setShares(count)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                     shares === count
                       ? 'bg-primary-700 text-white font-bold shadow-subtle'
                       : 'bg-surface-alt text-ink-primary hover:bg-primary-50 hover:text-primary-800 border border-surface-border'
                   }`}
                 >
-                  {count.toLocaleString('ar-JO')} سهم
+                  {count.toLocaleString(locale)} {t.calcSharesUnit}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Rules & Notes from Profile Page 1 */}
+          {/* Rules & Notes from Profile */}
           <div className="bg-surface-alt rounded-xl p-4 border border-surface-border text-xs text-ink-secondary space-y-2">
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-accent-600 shrink-0 mt-0.5" />
-              <span>قيمة السهم الواحد: <strong>1 دينار أردني</strong> (المادة 10).</span>
+              <span>
+                {language === 'ar'
+                  ? 'قيمة السهم الواحد: 1 دينار أردني (المادة 10).'
+                  : 'Nominal share value: 1 JOD per share (Article 10).'}
+              </span>
             </div>
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-accent-600 shrink-0 mt-0.5" />
-              <span>رسوم الانتساب: <strong>25 دينار أردني</strong>.</span>
+              <span>
+                {language === 'ar'
+                  ? 'رسوم الانتساب لمرة واحدة: 25 دينار أردني (المادة 11).'
+                  : 'One-time application fee: 25 JOD (Article 11).'}
+              </span>
             </div>
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-accent-600 shrink-0 mt-0.5" />
-              <span>إمكانية دفعة أولى خمس المبلغ والباقي يقسط على 24 شهراً.</span>
+              <span>
+                {language === 'ar'
+                  ? 'إمكانية دفعة أولى خمس المبلغ والباقي يقسط على 24 شهراً.'
+                  : 'Option of 20% downpayment with remaining balance payable over 24 months.'}
+              </span>
             </div>
           </div>
         </div>
@@ -105,38 +126,38 @@ export const ShareCalculator: React.FC = () => {
         {/* Results Calculation Column */}
         <div className="lg:col-span-6 bg-gradient-to-br from-primary-900 to-primary-950 text-white rounded-2xl p-6 sm:p-7 shadow-card">
           <span className="block text-xs font-semibold text-accent-400 uppercase tracking-wider mb-1">
-            الناتج الحسابي
+            {t.calcSummaryTitle}
           </span>
           <div className="text-3xl font-bold text-white mb-6">
-            {totalShareCost.toLocaleString('ar-JO')} <span className="text-base font-normal text-primary-200">دينار أردني</span>
+            {totalShareCost.toLocaleString(locale)} <span className="text-base font-normal text-primary-200">{t.calcCurrency}</span>
           </div>
 
           <div className="space-y-3.5 border-t border-primary-800/80 pt-4 text-sm">
             <div className="flex justify-between items-center text-primary-100">
-              <span>إجمالي قيمة الأسهم (دينار واحد لكل سهم):</span>
-              <span className="font-bold text-white">{totalShareCost.toLocaleString('ar-JO')} د.أ</span>
+              <span>{t.calcEstimatedCost}</span>
+              <span className="font-bold text-white">{totalShareCost.toLocaleString(locale)} {t.calcCurrency}</span>
             </div>
 
             <div className="flex justify-between items-center text-primary-100">
-              <span>الدفعة الأولى (خُمس المبلغ):</span>
-              <span className="font-bold text-white">{initialDownpayment.toLocaleString('ar-JO')} د.أ</span>
+              <span>{t.calcDownpayment}</span>
+              <span className="font-bold text-white">{initialDownpayment.toLocaleString(locale)} {t.calcCurrency}</span>
             </div>
 
             <div className="flex justify-between items-center text-primary-200 text-xs">
-              <span>المبلغ المتبقي بالتقسيط:</span>
-              <span>{remainingAmount.toLocaleString('ar-JO')} د.أ</span>
+              <span>{language === 'ar' ? 'المبلغ المتبقي بالتقسيط:' : 'Remaining Balance:'}</span>
+              <span>{remainingAmount.toLocaleString(locale)} {t.calcCurrency}</span>
             </div>
 
             <div className="flex justify-between items-center text-primary-200 text-xs">
-              <span>القسط الشهري الحسابي (على 24 شهراً):</span>
+              <span>{t.calcMonthlyInstallment}</span>
               <span className="font-bold text-accent-300">
-                {monthlyInstallment.toFixed(2)} د.أ / شهرياً
+                {monthlyInstallment.toFixed(2)} {t.calcCurrency} / {language === 'ar' ? 'شهرياً' : 'mo'}
               </span>
             </div>
 
             <div className="flex justify-between items-center text-primary-100 pt-2 border-t border-primary-800/60 text-xs">
-              <span>رسوم الانتساب المنصوص عليها:</span>
-              <span className="font-bold text-white">{entranceFee} د.أ</span>
+              <span>{t.calcEntranceFee}</span>
+              <span className="font-bold text-white">{entranceFee} {t.calcCurrency}</span>
             </div>
           </div>
 
@@ -148,11 +169,13 @@ export const ShareCalculator: React.FC = () => {
               className="w-full py-3 px-4 rounded-xl font-bold bg-accent-500 text-primary-950 hover:bg-accent-400 transition-colors flex items-center justify-center gap-2 text-sm shadow-subtle"
             >
               <MessageSquare className="w-4 h-4" />
-              <span>استفسر عن هذا الاكتتاب عبر واتساب</span>
-              <ArrowLeft className="w-4 h-4" />
+              <span>{t.calcInquireWhatsApp}</span>
+              <ArrowIcon className="w-4 h-4" />
             </a>
             <span className="block text-[11px] text-center text-primary-200 mt-2 leading-relaxed">
-              * هذا العرض ناتج حسابي تقريبي مستند إلى أحكام النظام الأساسي المعتمد، للتوضيح فقط ولا يشكّل التزاماً تعاقدياً.
+              {language === 'ar'
+                ? '* هذا العرض ناتج حسابي تقريبي مستند إلى أحكام النظام الأساسي المعتمد، للتوضيح فقط ولا يشكّل التزاماً تعاقدياً.'
+                : '* This estimate is based on the statutory Bylaws for illustrative purposes and does not constitute a contractual commitment.'}
             </span>
           </div>
         </div>

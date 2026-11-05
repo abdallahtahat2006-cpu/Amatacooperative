@@ -8,19 +8,37 @@ import {
   Mail
 } from 'lucide-react';
 import { COOPERATIVE_INFO } from '../data/cooperativeData';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export const Contact: React.FC = () => {
+  const { language, isRTL } = useLanguage();
+  const t = translations[language];
+
+  const defaultTopic = language === 'ar'
+    ? 'استفسار عن شروط الانتساب والعضوية'
+    : 'Inquiry regarding membership and subscription';
+
   const [userName, setUserName] = useState('');
-  const [topic, setTopic] = useState('استفسار عن شروط الانتساب والعضوية');
+  const [topic, setTopic] = useState(defaultTopic);
   const [userNote, setUserNote] = useState('');
 
   const generateWhatsAppMessage = () => {
-    let msg = `السلام عليكم ورحمة الله،\nالاسم: ${userName || 'مهتم بالتعاونية'}\nالموضوع: ${topic}\n`;
-    if (userNote.trim()) {
-      msg += `الاستفسار: ${userNote}\n`;
+    if (language === 'ar') {
+      let msg = `السلام عليكم ورحمة الله،\nالاسم: ${userName || 'مهتم بالتعاونية'}\nالموضوع: ${topic}\n`;
+      if (userNote.trim()) {
+        msg += `الاستفسار: ${userNote}\n`;
+      }
+      msg += `أرجو تزويدي بالمعلومات المتعلقة بهذا الموضوع من إدارة تعاونية عمتا. وشكراً لكم.`;
+      return msg;
+    } else {
+      let msg = `Hello,\nName: ${userName || 'Prospective Member'}\nTopic: ${topic}\n`;
+      if (userNote.trim()) {
+        msg += `Inquiry Details: ${userNote}\n`;
+      }
+      msg += `Please provide me with information from Ammata Cooperative management. Thank you.`;
+      return msg;
     }
-    msg += `أرجو تزويدي بالمعلومات المتعلقة بهذا الموضوع من إدارة تعاونية عمتا. وشكراً لكم.`;
-    return msg;
   };
 
   const handleWhatsAppRedirect = (e: React.FormEvent) => {
@@ -30,6 +48,24 @@ export const Contact: React.FC = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const topicOptions = language === 'ar' ? [
+    'استفسار عن شروط الانتساب والعضوية',
+    'استفسار عن الاكتتاب والأسهم والتقسيط',
+    'استفسار موجه للجنة المشاريع الصغيرة والمتوسطة',
+    'استفسار موجه للجنة التدريب والتشغيل',
+    'استفسار موجه للجنة المشاريع الكبرى والمنح',
+    'استفسار موجه للجنة التسويق والإعلام الرقمي',
+    'استفسار عام'
+  ] : [
+    'Inquiry regarding membership and subscription',
+    'Inquiry regarding shares, par value and installments',
+    'Inquiry for the Small & Medium Projects Committee',
+    'Inquiry for the Training & Employment Committee',
+    'Inquiry for the Major Projects & Grants Committee',
+    'Inquiry for the Marketing & Digital Media Committee',
+    'General Inquiry'
+  ];
+
   return (
     <div className="py-12 sm:py-16 lg:py-20 bg-surface-alt">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
@@ -37,16 +73,16 @@ export const Contact: React.FC = () => {
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-950 tracking-tight">
-            تواصل معنا
+            {t.contactPageTitle}
           </h1>
 
           <p className="text-base sm:text-lg text-ink-secondary leading-relaxed">
-            بيانات الاتصال والعنوان الرسمية المعتمدة لتعاونية عمّتا.
+            {t.contactPageSubtitle}
           </p>
         </div>
 
         {/* =========================================================================
-            PRIMARY CONTACT CHANNELS (CARDS)
+            PRIMARY CONTACT CHANNELS (4 CARDS)
            ========================================================================= */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           
@@ -57,18 +93,18 @@ export const Contact: React.FC = () => {
                 <Phone className="w-6 h-6 text-accent-600" />
               </div>
               <h3 className="text-lg font-bold text-primary-950">
-                الاتصال الهاتفي
+                {t.contactPhoneCardTitle}
               </h3>
               <p className="text-xs text-ink-secondary leading-relaxed">
-                رقم الهاتف المعتمد لإدارة التعاونية للتواصل المباشر.
+                {t.contactPhoneCardDesc}
               </p>
               <div className="pt-2">
-                <span className="block text-xs text-ink-muted mb-1">الرقم المعتمد:</span>
+                <span className="block text-xs text-ink-muted mb-1">{t.contactApprovedNumber}</span>
                 <span dir="ltr" className="text-xl font-bold font-mono text-primary-800 block">
                   {COOPERATIVE_INFO.phoneDisplay}
                 </span>
                 <span dir="ltr" className="text-xs font-mono text-ink-secondary">
-                  00962-790335694
+                  +962 79 033 5694
                 </span>
               </div>
             </div>
@@ -78,7 +114,7 @@ export const Contact: React.FC = () => {
               className="w-full py-3 px-4 rounded-xl font-bold bg-primary-700 text-white hover:bg-primary-800 transition-colors text-center text-sm shadow-subtle flex items-center justify-center gap-2"
             >
               <Phone className="w-4 h-4" />
-              <span>اتصال هاتفي مباشر</span>
+              <span>{t.contactPhoneAction}</span>
             </a>
           </div>
 
@@ -89,30 +125,36 @@ export const Contact: React.FC = () => {
                 <MessageSquare className="w-6 h-6 text-emerald-600" />
               </div>
               <h3 className="text-lg font-bold text-primary-950">
-                المراسلة عبر واتساب
+                {t.contactWhatsAppCardTitle}
               </h3>
               <p className="text-xs text-ink-secondary leading-relaxed">
-                محادثة فورية للاستفسار عبر الهاتف المعتمد (0790335694).
+                {t.contactWhatsAppCardDesc}
               </p>
               <div className="pt-2">
-                <span className="block text-xs text-ink-muted mb-1">خدمة المراسلة المباشرة:</span>
+                <span className="block text-xs text-ink-muted mb-1">
+                  {language === 'ar' ? 'خدمة المراسلة المباشرة:' : 'Direct Messaging:'}
+                </span>
                 <span className="text-sm font-semibold text-emerald-700 block">
-                  متاح عبر تطبيق WhatsApp
+                  {language === 'ar' ? 'متاح عبر تطبيق WhatsApp' : 'Available on WhatsApp'}
                 </span>
                 <span className="text-xs text-ink-secondary">
-                  رسالة مباشرة إلى الرقم المعتمد
+                  +962 79 033 5694
                 </span>
               </div>
             </div>
 
             <a
-              href={`https://wa.me/${COOPERATIVE_INFO.whatsappNumber}?text=${encodeURIComponent(COOPERATIVE_INFO.whatsappPrefilledMessage)}`}
+              href={`https://wa.me/${COOPERATIVE_INFO.whatsappNumber}?text=${encodeURIComponent(
+                language === 'ar'
+                  ? COOPERATIVE_INFO.whatsappPrefilledMessage
+                  : COOPERATIVE_INFO.whatsappPrefilledMessageEn
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-3 px-4 rounded-xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors text-center text-sm shadow-subtle flex items-center justify-center gap-2"
             >
               <MessageSquare className="w-4 h-4" />
-              <span>بدء محادثة واتساب</span>
+              <span>{t.contactWhatsAppAction}</span>
             </a>
           </div>
 
@@ -123,18 +165,18 @@ export const Contact: React.FC = () => {
                 <Mail className="w-6 h-6 text-sky-600" />
               </div>
               <h3 className="text-lg font-bold text-primary-950">
-                البريد الإلكتروني
+                {t.contactEmailCardTitle}
               </h3>
               <p className="text-xs text-ink-secondary leading-relaxed">
-                البريد الرسمي المعتمد لتلقي المراسلات والاستفسارات.
+                {t.contactEmailCardDesc}
               </p>
               <div className="pt-2">
-                <span className="block text-xs text-ink-muted mb-1">البريد المعتمد:</span>
+                <span className="block text-xs text-ink-muted mb-1">{t.contactEmailApproved}</span>
                 <span dir="ltr" className="text-sm font-bold font-mono text-primary-800 block break-all">
                   {COOPERATIVE_INFO.email}
                 </span>
                 <span className="text-xs text-ink-secondary">
-                  متابعة مستمرة للمراسلات الواردة
+                  {t.contactEmailSub}
                 </span>
               </div>
             </div>
@@ -144,7 +186,7 @@ export const Contact: React.FC = () => {
               className="w-full py-3 px-4 rounded-xl font-bold bg-sky-600 text-white hover:bg-sky-700 transition-colors text-center text-sm shadow-subtle flex items-center justify-center gap-2"
             >
               <Mail className="w-4 h-4" />
-              <span>إرسال بريد إلكتروني</span>
+              <span>{t.contactEmailAction}</span>
             </a>
           </div>
 
@@ -155,24 +197,24 @@ export const Contact: React.FC = () => {
                 <MapPin className="w-6 h-6 text-accent-600" />
               </div>
               <h3 className="text-lg font-bold text-primary-950">
-                المقر والمركز
+                {t.contactLocationCardTitle}
               </h3>
               <p className="text-xs text-ink-secondary leading-relaxed">
-                بيانات العنوان والمركز المعتمدة للتعاونية.
+                {t.contactLocationCardDesc}
               </p>
               <div className="pt-2 space-y-1">
-                <span className="block text-xs text-ink-muted">مركز التعاونية:</span>
+                <span className="block text-xs text-ink-muted">{t.contactCenterLabel}</span>
                 <span className="text-base font-bold text-primary-950 block">
-                  {COOPERATIVE_INFO.center}
+                  {language === 'ar' ? COOPERATIVE_INFO.center : COOPERATIVE_INFO.centerEn}
                 </span>
                 <span className="text-xs text-ink-secondary block">
-                  منطقة العمل: {COOPERATIVE_INFO.workArea}
+                  {t.contactWorkAreaLabel} {language === 'ar' ? COOPERATIVE_INFO.workArea : COOPERATIVE_INFO.workAreaEn}
                 </span>
               </div>
             </div>
 
             <div className="bg-surface-alt p-3 rounded-xl border border-surface-border text-center text-xs text-ink-muted">
-              المملكة الأردنية الهاشمية
+              {t.contactJordan}
             </div>
           </div>
 
@@ -188,23 +230,23 @@ export const Contact: React.FC = () => {
             <div className="lg:col-span-7 space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-primary-950">
-                  إرسال استفسار مباشر إلى إدارة التعاونية
+                  {t.contactFormTitle}
                 </h2>
                 <p className="text-xs sm:text-sm text-ink-secondary mt-1">
-                  اكتب اسمك ونوع استفسارك لفتح محادثة واتساب موجهة مباشرة إلى رقم هاتف التعاونية.
+                  {t.contactFormSubtitle}
                 </p>
               </div>
 
               <form onSubmit={handleWhatsAppRedirect} className="space-y-4">
                 <div>
                   <label htmlFor="user-name" className="block text-xs font-bold text-primary-900 mb-1.5">
-                    الاسم:
+                    {t.contactFormNameLabel}
                   </label>
                   <input
                     id="user-name"
                     type="text"
                     required
-                    placeholder="اكتب اسمك هنا"
+                    placeholder={t.contactFormNamePlaceholder}
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl border border-surface-border focus:border-accent-500 focus:ring-1 focus:ring-accent-500 text-sm bg-surface-alt"
@@ -213,7 +255,7 @@ export const Contact: React.FC = () => {
 
                 <div>
                   <label htmlFor="inquiry-topic" className="block text-xs font-bold text-primary-900 mb-1.5">
-                    موضوع الاستفسار:
+                    {t.contactFormTopicLabel}
                   </label>
                   <select
                     id="inquiry-topic"
@@ -221,24 +263,22 @@ export const Contact: React.FC = () => {
                     onChange={(e) => setTopic(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl border border-surface-border focus:border-accent-500 focus:ring-1 focus:ring-accent-500 text-sm bg-surface-alt"
                   >
-                    <option value="استفسار عن شروط الانتساب والعضوية">استفسار عن شروط الانتساب والعضوية</option>
-                    <option value="استفسار عن الاكتتاب والأسهم والتقسيط">استفسار عن الاكتتاب والأسهم والتقسيط</option>
-                    <option value="استفسار موجه للجنة المشاريع الصغيرة والمتوسطة">استفسار موجه للجنة المشاريع الصغيرة والمتوسطة</option>
-                    <option value="استفسار موجه للجنة التدريب والتشغيل">استفسار موجه للجنة التدريب والتشغيل</option>
-                    <option value="استفسار موجه للجنة المشاريع الكبرى والمنح">استفسار موجه للجنة المشاريع الكبرى والمنح</option>
-                    <option value="استفسار موجه للجنة التسويق والإعلام الرقمي">استفسار موجه للجنة التسويق والإعلام الرقمي</option>
-                    <option value="استفسار عام">استفسار عام</option>
+                    {topicOptions.map((opt, oIdx) => (
+                      <option key={oIdx} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
                   <label htmlFor="user-note" className="block text-xs font-bold text-primary-900 mb-1.5">
-                    تفاصيل الاستفسار (اختياري):
+                    {t.contactFormNotesLabel}
                   </label>
                   <textarea
                     id="user-note"
                     rows={4}
-                    placeholder="اكتب أي ملاحظة أو سؤال ترغب بتضمينه..."
+                    placeholder={t.contactFormNotesPlaceholder}
                     value={userNote}
                     onChange={(e) => setUserNote(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl border border-surface-border focus:border-accent-500 focus:ring-1 focus:ring-accent-500 text-sm bg-surface-alt resize-none"
@@ -247,11 +287,11 @@ export const Contact: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 px-6 rounded-xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-subtle flex items-center justify-center gap-2 text-sm sm:text-base"
+                  className="w-full py-3.5 px-6 rounded-xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-subtle flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
                 >
                   <MessageSquare className="w-5 h-5" />
-                  <span>إرسال الاستفسار عبر واتساب</span>
-                  <Send className="w-4 h-4 mr-1" />
+                  <span>{t.contactFormSubmit}</span>
+                  <Send className={`w-4 h-4 ${isRTL ? 'mr-1' : 'ml-1'}`} />
                 </button>
               </form>
             </div>
@@ -262,40 +302,40 @@ export const Contact: React.FC = () => {
                 <Building2 className="w-6 h-6 text-accent-400" />
                 <div>
                   <h3 className="text-base sm:text-lg font-bold">
-                    بيانات التعاونية
+                    {t.contactDataTitle}
                   </h3>
                 </div>
               </div>
 
               <div className="space-y-4 text-xs sm:text-sm text-primary-100">
                 <div>
-                  <span className="text-accent-400 block font-semibold mb-0.5">الاسم:</span>
-                  <p className="font-bold text-white">{COOPERATIVE_INFO.name}</p>
+                  <span className="text-accent-400 block font-semibold mb-0.5">{t.contactNameLabel}</span>
+                  <p className="font-bold text-white">{language === 'ar' ? COOPERATIVE_INFO.name : COOPERATIVE_INFO.nameEn}</p>
                 </div>
 
                 <div>
-                  <span className="text-accent-400 block font-semibold mb-0.5">النوع:</span>
-                  <p>{COOPERATIVE_INFO.type}</p>
+                  <span className="text-accent-400 block font-semibold mb-0.5">{t.contactTypeLabel}</span>
+                  <p>{language === 'ar' ? COOPERATIVE_INFO.type : COOPERATIVE_INFO.typeEn}</p>
                 </div>
 
                 <div>
-                  <span className="text-accent-400 block font-semibold mb-0.5">المقر والمركز:</span>
-                  <p>{COOPERATIVE_INFO.center}</p>
+                  <span className="text-accent-400 block font-semibold mb-0.5">{t.contactCenterLabel}</span>
+                  <p>{language === 'ar' ? COOPERATIVE_INFO.center : COOPERATIVE_INFO.centerEn}</p>
                 </div>
 
                 <div>
-                  <span className="text-accent-400 block font-semibold mb-0.5">الهاتف المعتمد:</span>
-                  <p dir="ltr" className="font-mono text-white text-base font-bold text-right">
-                    00962-790335694
+                  <span className="text-accent-400 block font-semibold mb-0.5">{t.contactPhoneApprovedLabel}</span>
+                  <p dir="ltr" className="font-mono text-white text-base font-bold text-start">
+                    +962 79 033 5694
                   </p>
                 </div>
 
                 <div>
-                  <span className="text-accent-400 block font-semibold mb-0.5">البريد الإلكتروني:</span>
+                  <span className="text-accent-400 block font-semibold mb-0.5">{t.contactEmailApprovedLabel}</span>
                   <a
                     href={COOPERATIVE_INFO.emailMailto}
                     dir="ltr"
-                    className="font-mono text-white text-sm sm:text-base font-bold text-right block hover:text-accent-300 transition-colors break-all"
+                    className="font-mono text-white text-sm sm:text-base font-bold text-start block hover:text-accent-300 transition-colors break-all"
                   >
                     {COOPERATIVE_INFO.email}
                   </a>
@@ -303,7 +343,7 @@ export const Contact: React.FC = () => {
               </div>
 
               <div className="pt-4 border-t border-primary-800 text-xs text-primary-200 leading-relaxed">
-                «نرحّب بانتساب كل من يشاركنا غايات النظام الأساسي ورؤية خطة الربع الرابع 2026»
+                {t.coopQuote}
               </div>
             </div>
 

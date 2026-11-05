@@ -1,19 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, MessageSquare, MapPin, ArrowLeft, Mail } from 'lucide-react';
+import { Phone, MessageSquare, MapPin, ArrowLeft, ArrowRight, Mail } from 'lucide-react';
 import { COOPERATIVE_INFO } from '../data/cooperativeData';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
+  const { language, isRTL } = useLanguage();
+  const t = translations[language];
 
   const footerNav = [
-    { to: '/', label: 'الرئيسية' },
-    { to: '/about', label: 'عن التعاونية' },
-    { to: '/goals', label: 'غاياتنا' },
-    { to: '/governance', label: 'الهيكل التنظيمي' },
-    { to: '/membership', label: 'العضوية والانتساب' },
-    { to: '/contact', label: 'تواصل معنا' },
+    { to: '/', label: t.navHome },
+    { to: '/about', label: t.navAbout },
+    { to: '/goals', label: t.navGoals },
+    { to: '/governance', label: t.navGovernance },
+    { to: '/membership', label: t.navMembership },
+    { to: '/contact', label: t.navContact },
   ];
+
+  const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   return (
     <footer className="bg-primary-950 text-white pt-10 sm:pt-14 pb-8 border-t border-primary-900/60">
@@ -23,27 +28,27 @@ export const Footer: React.FC = () => {
           
           {/* Identity Column */}
           <div className="md:col-span-5 space-y-3.5">
-            <Link to="/" className="inline-block" aria-label="الصفحة الرئيسية">
+            <Link to="/" className="inline-block" aria-label={t.navHome}>
               <img
                 src={COOPERATIVE_INFO.logoWhitePath}
-                alt="شعار تعاونية عمتا"
+                alt={language === 'ar' ? 'شعار تعاونية عمتا' : 'Ammata Cooperative Logo'}
                 className="h-10 sm:h-11 w-auto object-contain"
               />
             </Link>
             
             <p className="text-primary-100/85 text-xs sm:text-sm leading-relaxed max-w-sm">
-              جمعية تعاونية أردنية متعددة الأغراض محدودة المسؤولية، تتخذ من محافظة البلقاء عنواناً لها، ومركزها البلاونة، تأسست وفق أحكام قانون التعاون الأردني ونظامها الداخلي المعتمد.
+              {language === 'ar' ? COOPERATIVE_INFO.aboutSummary : COOPERATIVE_INFO.aboutSummaryEn}
             </p>
 
             <p className="text-xs text-accent-300 pt-1">
-              «نرحّب بانتساب كل من يشاركنا غايات النظام الأساسي ورؤية خطة الربع الرابع 2026»
+              {t.coopQuote}
             </p>
           </div>
 
           {/* Quick Links Column */}
           <div className="md:col-span-3 space-y-3">
             <h3 className="text-xs sm:text-sm font-bold text-accent-400 uppercase tracking-wider">
-              أقسام الموقع
+              {t.siteSections}
             </h3>
             <ul className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs sm:text-sm">
               {footerNav.map((item) => (
@@ -52,7 +57,7 @@ export const Footer: React.FC = () => {
                     to={item.to}
                     className="text-primary-100/80 hover:text-white transition-colors inline-flex items-center gap-1.5"
                   >
-                    <ArrowLeft className="w-3 h-3 text-accent-400/70" />
+                    <ArrowIcon className="w-3 h-3 text-accent-400/70" />
                     <span>{item.label}</span>
                   </Link>
                 </li>
@@ -63,13 +68,13 @@ export const Footer: React.FC = () => {
           {/* Contact Information Column */}
           <div className="md:col-span-4 space-y-3 text-xs sm:text-sm">
             <h3 className="text-xs sm:text-sm font-bold text-accent-400 uppercase tracking-wider">
-              المقر والتواصل
+              {t.hqAndContact}
             </h3>
 
             <div className="space-y-2.5 text-primary-100/90">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" />
-                <span>{COOPERATIVE_INFO.center}</span>
+                <span>{language === 'ar' ? COOPERATIVE_INFO.center : COOPERATIVE_INFO.centerEn}</span>
               </div>
 
               <div className="flex items-center gap-2.5">
@@ -79,7 +84,7 @@ export const Footer: React.FC = () => {
                   className="font-mono text-white hover:text-accent-300 transition-colors"
                   dir="ltr"
                 >
-                  00962-790335694
+                  +962 79 033 5694
                 </a>
               </div>
 
@@ -97,12 +102,16 @@ export const Footer: React.FC = () => {
               <div className="flex items-center gap-2.5">
                 <MessageSquare className="w-4 h-4 text-accent-400 shrink-0" />
                 <a
-                  href={`https://wa.me/${COOPERATIVE_INFO.whatsappNumber}?text=${encodeURIComponent(COOPERATIVE_INFO.whatsappPrefilledMessage)}`}
+                  href={`https://wa.me/${COOPERATIVE_INFO.whatsappNumber}?text=${encodeURIComponent(
+                    language === 'ar'
+                      ? COOPERATIVE_INFO.whatsappPrefilledMessage
+                      : COOPERATIVE_INFO.whatsappPrefilledMessageEn
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-accent-300 hover:text-white transition-colors text-xs"
                 >
-                  مراسلة واتساب للاستفسار
+                  {t.quickWhatsApp}
                 </a>
               </div>
             </div>
@@ -111,14 +120,14 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-primary-300/75 text-center sm:text-right">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-primary-300/75 text-center sm:text-start">
           <p>
-            جميع الحقوق محفوظة © {currentYear} {COOPERATIVE_INFO.name}.
+            {t.allRightsReserved}
           </p>
           <p className="flex items-center justify-center gap-2">
-            <span>المملكة الأردنية الهاشمية</span>
+            <span>{t.jordanKingdom}</span>
             <span>•</span>
-            <span>{COOPERATIVE_INFO.type}</span>
+            <span>{t.coopTypeTag}</span>
           </p>
         </div>
       </div>
