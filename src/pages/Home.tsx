@@ -12,8 +12,6 @@ import {
   MessageSquare,
   MapPin,
   CheckCircle2,
-  ShieldCheck,
-  Award,
   Mail
 } from 'lucide-react';
 import { COOPERATIVE_INFO } from '../data/cooperativeData';
@@ -67,13 +65,13 @@ export const Home: React.FC = () => {
          ========================================================================= */}
       <section className="relative overflow-hidden bg-gradient-to-b from-primary-50/60 via-white to-surface-alt pt-8 sm:pt-14 pb-12 sm:pb-20 border-b border-surface-border w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center min-w-0">
             
             {/* Primary Editorial Column */}
-            <div className="lg:col-span-7 space-y-5 text-start min-w-0">
+            <div className="lg:col-span-6 space-y-5 text-start min-w-0">
               {/* Main Headline - Strict Official Name & Type */}
               <div className="space-y-1">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[44px] font-bold text-primary-950 leading-[1.25] tracking-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[42px] font-bold text-primary-950 leading-[1.25] tracking-tight">
                   {language === 'ar' ? COOPERATIVE_INFO.shortName : COOPERATIVE_INFO.shortNameEn}
                 </h1>
                 <p className="text-xl sm:text-2xl font-bold text-accent-700">
@@ -112,96 +110,73 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            {/* Institutional Identity Showcase Card */}
-            <div className="lg:col-span-5 min-w-0 relative">
-              {/* Subtle ambient blur glow behind card */}
-              <div className="absolute -inset-2 bg-gradient-to-tr from-accent-500/15 via-primary-600/10 to-primary-900/10 rounded-3xl blur-xl -z-10 transform -rotate-1 pointer-events-none" />
-
-              <div className="relative mx-auto max-w-sm sm:max-w-md lg:max-w-[410px] bg-gradient-to-br from-[#0c2a33] via-primary-950 to-[#081d24] text-white rounded-2xl border border-white/10 shadow-xl p-4 sm:p-5 overflow-hidden">
-                {/* Background decorative watermark */}
-                <div className="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-accent-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full bg-primary-700/20 blur-3xl pointer-events-none" />
-
-                {/* Central Brand Showcase Card */}
-                <div className="mb-3 p-3.5 sm:p-4 bg-gradient-to-b from-white to-surface-alt rounded-xl border border-white/80 shadow-md text-center relative overflow-hidden group">
-                  <div className="flex items-center justify-center py-1">
-                    <img
-                      src="/assets/logo_clean.png"
-                      alt={language === 'ar' ? COOPERATIVE_INFO.shortName : COOPERATIVE_INFO.shortNameEn}
-                      className="h-14 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="mt-2 pt-2 border-t border-surface-border flex items-center justify-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-accent-600" />
-                    <span className="text-[11px] sm:text-xs font-bold text-primary-950">
-                      {language === 'ar' ? COOPERATIVE_INFO.name : COOPERATIVE_INFO.nameEn}
-                    </span>
-                  </div>
-                </div>
-
-                {/* 3 Pillar Stats / Badges */}
-                <div className="grid grid-cols-3 gap-2 my-3">
-                  <div className="bg-white/5 hover:bg-white/10 transition-colors rounded-xl p-2 sm:p-2.5 border border-white/10 text-center">
-                    <span className="block text-lg sm:text-xl font-bold font-mono text-accent-400">14</span>
-                    <span className="block text-[10px] sm:text-[11px] font-semibold text-white mt-0.5">{t.statGoalsLabel}</span>
-                    <span className="block text-[9px] sm:text-[10px] text-primary-300/70 mt-0.5">{t.statGoalsSub}</span>
-                  </div>
-
-                  <div className="bg-white/5 hover:bg-white/10 transition-colors rounded-xl p-2 sm:p-2.5 border border-white/10 text-center">
-                    <span className="block text-lg sm:text-xl font-bold font-mono text-accent-400">5</span>
-                    <span className="block text-[10px] sm:text-[11px] font-semibold text-white mt-0.5">{t.statExecCommitteesLabel}</span>
-                    <span className="block text-[9px] sm:text-[10px] text-primary-300/70 mt-0.5">{t.statExecCommitteesSub}</span>
-                  </div>
-
-                  <div className="bg-white/5 hover:bg-white/10 transition-colors rounded-xl p-2 sm:p-2.5 border border-white/10 text-center">
-                    <span className="block text-lg sm:text-xl font-bold font-mono text-accent-400">1</span>
-                    <span className="block text-[10px] sm:text-[11px] font-semibold text-white mt-0.5">{t.statOneVoteLabel}</span>
-                    <span className="block text-[9px] sm:text-[10px] text-primary-300/70 mt-0.5">{t.statOneVoteSub}</span>
-                  </div>
-                </div>
-
-                {/* Institutional Credentials Strip */}
-                <div className="pt-2.5 border-t border-white/10 space-y-1.5 text-[11px] text-primary-200">
-                  <div className="flex items-center justify-between">
-                    <span className="text-primary-300/80">{t.hqLabel}</span>
-                    <span className="font-bold text-white flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-accent-400" />
-                      <span>{language === 'ar' ? COOPERATIVE_INFO.center : COOPERATIVE_INFO.centerEn}</span>
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-primary-300/80">{t.workAreaLabel}</span>
-                    <span className="font-semibold text-accent-200 text-end">
-                      {language === 'ar' ? COOPERATIVE_INFO.workArea : COOPERATIVE_INFO.workAreaEn}
-                    </span>
-                  </div>
-                </div>
-
+            {/* Al-Balawneh Original Hero Image Banner */}
+            <div className="lg:col-span-6 min-w-0 relative">
+              <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl border border-surface-border bg-white transition-all duration-300 group">
+                <picture>
+                  <source srcSet="/images/al-balawneh-hero.webp" type="image/webp" />
+                  <img
+                    src="/images/al-balawneh-hero.jpg"
+                    alt={language === 'ar' ? 'منطقة البلاونة - محافظة البلقاء، مركز تعاونية عمتا' : 'Al-Balawneh Region - Al-Balqa Governorate, Headquarters of Ammata Cooperative'}
+                    width="1672"
+                    height="940"
+                    fetchPriority="high"
+                    loading="eager"
+                    className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+                  />
+                </picture>
               </div>
-
-              {/* Floating Institutional Badge overlapping bottom */}
-              <div className="mt-2.5 bg-white/95 backdrop-blur-sm rounded-xl p-2.5 border border-surface-border shadow-card flex items-center justify-between gap-2.5 text-xs max-w-sm sm:max-w-md lg:max-w-[410px] mx-auto">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-primary-50 text-primary-700 flex items-center justify-center shrink-0">
-                    <Award className="w-3.5 h-3.5 text-accent-600" />
-                  </div>
-                  <div>
-                    <span className="block font-bold text-primary-950 text-xs">{t.lawEstablishedBadge}</span>
-                    <span className="block text-[10px] sm:text-[11px] text-ink-secondary">{t.civilSocietySub}</span>
-                  </div>
-                </div>
-                <Link
-                  to="/about"
-                  className="shrink-0 text-[10px] sm:text-[11px] font-bold text-primary-700 hover:text-accent-600 flex items-center gap-1 bg-surface-alt px-2.5 py-1.5 rounded-lg border border-surface-border transition-colors"
-                >
-                  <span>{t.viewDetails}</span>
-                  <ArrowIcon className="w-3 h-3" />
-                </Link>
-              </div>
-
             </div>
 
           </div>
+
+          {/* Institutional Credentials & Stats Ribbon */}
+          <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-surface-border/80 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div className="bg-white rounded-xl p-3 sm:p-4 border border-surface-border shadow-subtle flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary-50 text-primary-700 flex items-center justify-center font-bold text-lg font-mono shrink-0">
+                14
+              </div>
+              <div className="min-w-0">
+                <span className="block text-xs sm:text-sm font-bold text-primary-950 truncate">{t.statGoalsLabel}</span>
+                <span className="block text-[11px] text-ink-secondary truncate">{t.statGoalsSub}</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-3 sm:p-4 border border-surface-border shadow-subtle flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary-50 text-primary-700 flex items-center justify-center font-bold text-lg font-mono shrink-0">
+                5
+              </div>
+              <div className="min-w-0">
+                <span className="block text-xs sm:text-sm font-bold text-primary-950 truncate">{t.statExecCommitteesLabel}</span>
+                <span className="block text-[11px] text-ink-secondary truncate">{t.statExecCommitteesSub}</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-3 sm:p-4 border border-surface-border shadow-subtle flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary-50 text-primary-700 flex items-center justify-center font-bold text-lg font-mono shrink-0">
+                1
+              </div>
+              <div className="min-w-0">
+                <span className="block text-xs sm:text-sm font-bold text-primary-950 truncate">{t.statOneVoteLabel}</span>
+                <span className="block text-[11px] text-ink-secondary truncate">{t.statOneVoteSub}</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-3 sm:p-4 border border-surface-border shadow-subtle flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-accent-50 text-accent-700 flex items-center justify-center shrink-0">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <span className="block text-xs sm:text-sm font-bold text-primary-950 truncate">
+                  {language === 'ar' ? COOPERATIVE_INFO.center : COOPERATIVE_INFO.centerEn}
+                </span>
+                <span className="block text-[11px] text-ink-secondary truncate">
+                  {language === 'ar' ? COOPERATIVE_INFO.governorate : COOPERATIVE_INFO.governorateEn}
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -276,13 +251,38 @@ export const Home: React.FC = () => {
          ========================================================================= */}
       <section className="py-14 sm:py-20 bg-surface-alt border-y border-surface-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center space-y-3 mb-10 sm:mb-12">
+          <div className="max-w-3xl mx-auto text-center space-y-3 mb-8 sm:mb-10">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary-950 leading-snug">
               {t.pillarsTitle}
             </h2>
             <p className="text-base text-ink-secondary leading-relaxed">
               {t.pillarsSubtitle}
             </p>
+          </div>
+
+          {/* Work Fields Interactive Preview Banner */}
+          <div className="mb-10 sm:mb-12">
+            <Link
+              to="/goals"
+              className="block rounded-2xl sm:rounded-3xl overflow-hidden shadow-card hover:shadow-xl transition-all duration-300 border border-surface-border bg-white group relative focus:outline-none focus:ring-2 focus:ring-primary-700"
+              aria-label={language === 'ar' ? 'استكشف مجالات وغايات عمل تعاونية عمتا' : 'Explore Ammata Cooperative Work Fields'}
+            >
+              <picture>
+                <source srcSet="/images/work-fields.webp" type="image/webp" />
+                <img
+                  src="/images/work-fields.jpg"
+                  alt={language === 'ar' ? 'مجالات العمل - برامج ومبادرات تخدم الأعضاء والمجتمع المحلي' : 'Ammata Cooperative Work Fields'}
+                  width="1672"
+                  height="940"
+                  loading="lazy"
+                  className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+                />
+              </picture>
+              <div className="absolute bottom-3 end-3 sm:bottom-5 sm:end-5 bg-white/95 backdrop-blur-md text-primary-950 text-xs sm:text-sm font-bold px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl shadow-subtle flex items-center gap-2 border border-white/60 group-hover:bg-primary-700 group-hover:text-white transition-colors">
+                <span>{language === 'ar' ? 'استكشف كافة الغايات الـ 14' : 'Explore All 14 Objectives'}</span>
+                <ArrowIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-600 group-hover:text-accent-300" />
+              </div>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

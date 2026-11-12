@@ -46,6 +46,22 @@ export const Governance: React.FC = () => {
           </p>
         </div>
 
+        {/* Governance Primary Opening Banner */}
+        <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-card border border-surface-border bg-white group">
+          <picture>
+            <source srcSet="/images/governance-banner.webp" type="image/webp" />
+            <img
+              src="/images/governance-banner.jpg"
+              alt={language === 'ar' ? 'التنظيم والحوكمة - هيكل مؤسسي واضح يضمن كفاءة العمل وتحقيق الغايات' : 'Governance & Organizational Structure - Ammata Cooperative'}
+              width="1672"
+              height="940"
+              fetchPriority="high"
+              loading="eager"
+              className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+            />
+          </picture>
+        </div>
+
         {/* =========================================================================
             HIERARCHY VISUAL FLOW
            ========================================================================= */}
@@ -285,45 +301,109 @@ export const Governance: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {EXECUTIVE_COMMITTEES.map((comm: ExecutiveCommittee) => {
               const IconComp = execIconMap[comm.iconName] || Briefcase;
               const responsibilities = language === 'ar' ? comm.keyResponsibilities : comm.keyResponsibilitiesEn;
 
+              // Featured Committee 1: Training and Employment with Banner
+              if (comm.id === 1) {
+                return (
+                  <div
+                    key={comm.id}
+                    className="col-span-1 md:col-span-2 bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all"
+                  >
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                      <div className="lg:col-span-6 space-y-4 text-start">
+                        <div className="flex items-center justify-between">
+                          <div className="w-11 h-11 rounded-xl bg-primary-50 text-primary-700 flex items-center justify-center">
+                            <IconComp className="w-5 h-5 text-accent-600" />
+                          </div>
+                          <span className="text-xs font-bold text-ink-muted bg-surface-alt px-2.5 py-1 rounded-md border border-surface-border">
+                            {comm.id}
+                          </span>
+                        </div>
+
+                        <h3 className="text-xl font-bold text-primary-950">
+                          {language === 'ar' ? comm.name : comm.nameEn}
+                        </h3>
+
+                        <p className="text-sm text-ink-secondary leading-relaxed">
+                          {language === 'ar' ? comm.roleDescription : comm.roleDescriptionEn}
+                        </p>
+
+                        <div className="space-y-2 pt-2 border-t border-surface-border/60">
+                          <span className="block text-xs font-bold text-primary-800">
+                            {t.govKeyTasks}
+                          </span>
+                          <ul className="space-y-1.5 text-xs sm:text-sm text-ink-secondary">
+                            {responsibilities.map((resp, rIdx) => (
+                              <li key={rIdx} className="flex items-start gap-1.5">
+                                <span className="text-accent-500 font-bold">•</span>
+                                <span>{resp}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="lg:col-span-6">
+                        <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-subtle border border-surface-border bg-white group">
+                          <picture>
+                            <source srcSet="/images/training-capacity-building.webp" type="image/webp" />
+                            <img
+                              src="/images/training-capacity-building.jpg"
+                              alt={language === 'ar' ? 'التدريب وبناء القدرات - تطوير مهارات الأعضاء وتأهيلهم' : 'Training & Capacity Building - Ammata Cooperative'}
+                              width="1672"
+                              height="940"
+                              loading="lazy"
+                              className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+                            />
+                          </picture>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              // Standard Cards for Committees 2, 3, 4, 5
               return (
                 <div
                   key={comm.id}
-                  className="bg-white rounded-2xl p-6 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all space-y-4"
+                  className="bg-white rounded-2xl p-6 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all space-y-4 flex flex-col justify-between"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="w-11 h-11 rounded-xl bg-primary-50 text-primary-700 flex items-center justify-center">
-                      <IconComp className="w-5 h-5 text-accent-600" />
+                  <div className="space-y-4 text-start">
+                    <div className="flex items-center justify-between">
+                      <div className="w-11 h-11 rounded-xl bg-primary-50 text-primary-700 flex items-center justify-center">
+                        <IconComp className="w-5 h-5 text-accent-600" />
+                      </div>
+                      <span className="text-xs font-bold text-ink-muted bg-surface-alt px-2.5 py-1 rounded-md border border-surface-border">
+                        {comm.id}
+                      </span>
                     </div>
-                    <span className="text-xs font-bold text-ink-muted bg-surface-alt px-2.5 py-1 rounded-md border border-surface-border">
-                      {comm.id}
-                    </span>
-                  </div>
 
-                  <h3 className="text-lg font-bold text-primary-950">
-                    {language === 'ar' ? comm.name : comm.nameEn}
-                  </h3>
+                    <h3 className="text-lg font-bold text-primary-950">
+                      {language === 'ar' ? comm.name : comm.nameEn}
+                    </h3>
 
-                  <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
-                    {language === 'ar' ? comm.roleDescription : comm.roleDescriptionEn}
-                  </p>
+                    <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+                      {language === 'ar' ? comm.roleDescription : comm.roleDescriptionEn}
+                    </p>
 
-                  <div className="space-y-2 pt-2 border-t border-surface-border/60">
-                    <span className="block text-xs font-bold text-primary-800">
-                      {t.govKeyTasks}
-                    </span>
-                    <ul className="space-y-1.5 text-xs text-ink-secondary">
-                      {responsibilities.map((resp, rIdx) => (
-                        <li key={rIdx} className="flex items-start gap-1.5">
-                          <span className="text-accent-500 font-bold">•</span>
-                          <span>{resp}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="space-y-2 pt-2 border-t border-surface-border/60">
+                      <span className="block text-xs font-bold text-primary-800">
+                        {t.govKeyTasks}
+                      </span>
+                      <ul className="space-y-1.5 text-xs text-ink-secondary">
+                        {responsibilities.map((resp, rIdx) => (
+                          <li key={rIdx} className="flex items-start gap-1.5">
+                            <span className="text-accent-500 font-bold">•</span>
+                            <span>{resp}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               );

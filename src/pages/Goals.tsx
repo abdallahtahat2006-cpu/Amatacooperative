@@ -42,6 +42,22 @@ export const Goals: React.FC = () => {
           </p>
         </div>
 
+        {/* Objectives Primary Opening Banner */}
+        <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-card border border-surface-border bg-white group">
+          <picture>
+            <source srcSet="/images/objectives-banner.webp" type="image/webp" />
+            <img
+              src="/images/objectives-banner.jpg"
+              alt={language === 'ar' ? 'غايات تعاونية عمتا - تنمية روح التعاون وتحسين الأحوال الاجتماعية والاقتصادية والثقافية لأعضائها' : 'Ammata Cooperative Statutory Objectives'}
+              width="1672"
+              height="940"
+              fetchPriority="high"
+              loading="eager"
+              className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+            />
+          </picture>
+        </div>
+
         {/* Filter and Search Bar */}
         <div className="bg-white rounded-2xl p-4 sm:p-6 border border-surface-border shadow-subtle space-y-4">
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
@@ -87,35 +103,140 @@ export const Goals: React.FC = () => {
 
         {/* Goals List / Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          {filteredGoals.map((goal) => (
-            <div
-              key={goal.id}
-              className="bg-white rounded-2xl p-6 sm:p-7 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all space-y-3.5 flex flex-col justify-between"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="inline-block px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-surface-alt text-primary-800 border border-surface-border">
-                    {t.goalNumberPrefix(goal.id)}
-                  </span>
-                  <span className="text-xs text-ink-muted font-medium bg-surface-alt/70 px-2.5 py-0.5 rounded-full border border-surface-border">
-                    {language === 'ar' ? goal.categoryTitleAr : goal.categoryTitleEn}
-                  </span>
+          {filteredGoals.map((goal) => {
+            // Featured Goal 1: Member Projects Support with Banner
+            if (goal.id === 1) {
+              return (
+                <div
+                  key={goal.id}
+                  className="col-span-1 md:col-span-2 bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all"
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                    <div className="lg:col-span-6 space-y-4 text-start">
+                      <div className="flex items-center justify-between">
+                        <span className="inline-block px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-primary-50 text-primary-800 border border-primary-200">
+                          {t.goalNumberPrefix(goal.id)}
+                        </span>
+                        <span className="text-xs text-ink-muted font-medium bg-surface-alt px-2.5 py-0.5 rounded-full border border-surface-border">
+                          {language === 'ar' ? goal.categoryTitleAr : goal.categoryTitleEn}
+                        </span>
+                      </div>
+
+                      <h3 className="font-bold text-primary-950 text-lg sm:text-xl leading-snug">
+                        {language === 'ar' ? goal.shortTitle : goal.shortTitleEn}
+                      </h3>
+
+                      <p className="font-normal text-ink-primary text-sm sm:text-base leading-relaxed text-justify">
+                        {language === 'ar' ? goal.officialText : goal.officialTextEn}
+                      </p>
+
+                      <div className="pt-2 text-xs text-ink-muted border-t border-surface-border/60">
+                        <span>{language === 'ar' ? goal.articleRef : goal.articleRefEn}</span>
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-6">
+                      <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-subtle border border-surface-border bg-white group">
+                        <picture>
+                          <source srcSet="/images/member-projects-support.webp" type="image/webp" />
+                          <img
+                            src="/images/member-projects-support.jpg"
+                            alt={language === 'ar' ? 'دعم مشاريع الأعضاء - تقديم الخبرة والتمويل والخدمات اللازمة' : "Supporting Members' Projects - Ammata Cooperative"}
+                            width="1672"
+                            height="940"
+                            loading="lazy"
+                            className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+                          />
+                        </picture>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            // Featured Goal 3: Renewable Energy & Sustainability with Banner
+            if (goal.id === 3) {
+              return (
+                <div
+                  key={goal.id}
+                  className="col-span-1 md:col-span-2 bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all"
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                    <div className="lg:col-span-6 space-y-4 text-start">
+                      <div className="flex items-center justify-between">
+                        <span className="inline-block px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-accent-50 text-accent-800 border border-accent-200">
+                          {t.goalNumberPrefix(goal.id)}
+                        </span>
+                        <span className="text-xs text-ink-muted font-medium bg-surface-alt px-2.5 py-0.5 rounded-full border border-surface-border">
+                          {language === 'ar' ? goal.categoryTitleAr : goal.categoryTitleEn}
+                        </span>
+                      </div>
+
+                      <h3 className="font-bold text-primary-950 text-lg sm:text-xl leading-snug">
+                        {language === 'ar' ? goal.shortTitle : goal.shortTitleEn}
+                      </h3>
+
+                      <p className="font-normal text-ink-primary text-sm sm:text-base leading-relaxed text-justify">
+                        {language === 'ar' ? goal.officialText : goal.officialTextEn}
+                      </p>
+
+                      <div className="pt-2 text-xs text-ink-muted border-t border-surface-border/60">
+                        <span>{language === 'ar' ? goal.articleRef : goal.articleRefEn}</span>
+                      </div>
+                    </div>
+
+                    <div className="lg:col-span-6">
+                      <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-subtle border border-surface-border bg-white group">
+                        <picture>
+                          <source srcSet="/images/sustainability-energy.webp" type="image/webp" />
+                          <img
+                            src="/images/sustainability-energy.jpg"
+                            alt={language === 'ar' ? 'الاستدامة والطاقة المتجددة - تشجيع المشاريع الصديقة للبيئة' : 'Sustainability & Renewable Energy - Ammata Cooperative'}
+                            width="1672"
+                            height="940"
+                            loading="lazy"
+                            className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+                          />
+                        </picture>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            // Standard Goal Card for other items
+            return (
+              <div
+                key={goal.id}
+                className="bg-white rounded-2xl p-6 sm:p-7 border border-surface-border hover:border-primary-300 hover:shadow-card transition-all space-y-3.5 flex flex-col justify-between"
+              >
+                <div className="space-y-3 text-start">
+                  <div className="flex items-center justify-between">
+                    <span className="inline-block px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-surface-alt text-primary-800 border border-surface-border">
+                      {t.goalNumberPrefix(goal.id)}
+                    </span>
+                    <span className="text-xs text-ink-muted font-medium bg-surface-alt/70 px-2.5 py-0.5 rounded-full border border-surface-border">
+                      {language === 'ar' ? goal.categoryTitleAr : goal.categoryTitleEn}
+                    </span>
+                  </div>
+
+                  <h3 className="font-bold text-primary-950 text-base sm:text-lg">
+                    {language === 'ar' ? goal.shortTitle : goal.shortTitleEn}
+                  </h3>
+
+                  <p className="font-normal text-ink-primary text-sm sm:text-base leading-relaxed text-justify">
+                    {language === 'ar' ? goal.officialText : goal.officialTextEn}
+                  </p>
                 </div>
 
-                <h3 className="font-bold text-primary-950 text-base sm:text-lg">
-                  {language === 'ar' ? goal.shortTitle : goal.shortTitleEn}
-                </h3>
-
-                <p className="font-normal text-ink-primary text-sm sm:text-base leading-relaxed text-justify">
-                  {language === 'ar' ? goal.officialText : goal.officialTextEn}
-                </p>
+                <div className="pt-2 text-xs text-ink-muted border-t border-surface-border/60 text-start">
+                  <span>{language === 'ar' ? goal.articleRef : goal.articleRefEn}</span>
+                </div>
               </div>
-
-              <div className="pt-2 text-xs text-ink-muted border-t border-surface-border/60">
-                <span>{language === 'ar' ? goal.articleRef : goal.articleRefEn}</span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {filteredGoals.length === 0 && (

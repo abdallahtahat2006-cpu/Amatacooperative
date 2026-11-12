@@ -151,19 +151,19 @@ export const About: React.FC = () => {
         </section>
 
         {/* =========================================================================
-            WHO WE ARE - Legal Profile
+            WHO WE ARE - Legal Profile with Cooperation Banner
            ========================================================================= */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-7 space-y-5 text-start">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          <div className="lg:col-span-6 space-y-5 text-start">
             <h2 className="text-2xl sm:text-3xl font-bold text-primary-950 leading-snug">
-              {t.aboutWhoWeAre}
+              {t.aboutWhoWeAre} — {language === 'ar' ? COOPERATIVE_INFO.shortName : COOPERATIVE_INFO.shortNameEn}
             </h2>
 
-            <div className="text-ink-primary text-base leading-relaxed space-y-4">
+            <div className="text-ink-primary text-base sm:text-lg leading-relaxed space-y-4">
               <p className="font-normal text-justify">
                 {language === 'ar' ? COOPERATIVE_INFO.aboutSummary : COOPERATIVE_INFO.aboutSummaryEn}
               </p>
-              <p className="font-normal text-justify">
+              <p className="font-normal text-justify text-sm sm:text-base text-ink-secondary">
                 {language === 'ar' ? COOPERATIVE_INFO.legalStatus : COOPERATIVE_INFO.legalStatusEn}
               </p>
             </div>
@@ -185,23 +185,44 @@ export const About: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 bg-primary-900 text-white rounded-3xl p-6 sm:p-8 space-y-5">
-            <h3 className="text-lg font-bold text-white border-b border-primary-800 pb-3">
+          {/* Member Cooperation Horizontal Banner */}
+          <div className="lg:col-span-6">
+            <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-surface-border bg-white group">
+              <picture>
+                <source srcSet="/images/cooperation.webp" type="image/webp" />
+                <img
+                  src="/images/cooperation.jpg"
+                  alt={language === 'ar' ? 'التعاون بين الأعضاء - يد واحدة في خدمة المجتمع والتعاونية' : 'Cooperation Among Members - Ammata Cooperative'}
+                  width="1672"
+                  height="940"
+                  loading="lazy"
+                  className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+                />
+              </picture>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            BYLAWS STATUTORY PROVISIONS
+           ========================================================================= */}
+        <section className="bg-primary-950 text-white rounded-3xl p-6 sm:p-10 border border-primary-800/80 shadow-card space-y-6">
+          <div className="border-b border-primary-800/80 pb-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white">
               {t.aboutBylawsProvisionsTitle}
             </h3>
-
-            <ul className="space-y-3.5 text-xs sm:text-sm text-primary-100">
-              {bylawsProvisions.map((provision, idx) => (
-                <li key={idx} className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" />
-                  <span>{provision}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="p-3.5 bg-white/10 rounded-xl text-xs text-primary-200 leading-relaxed">
+            <p className="text-xs sm:text-sm text-primary-200 mt-1">
               {t.aboutBylawsRef}
-            </div>
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {bylawsProvisions.map((provision, idx) => (
+              <div key={idx} className="bg-white/5 rounded-2xl p-4 sm:p-5 border border-white/10 flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-accent-400 shrink-0 mt-0.5" />
+                <span className="text-xs sm:text-sm text-primary-100 leading-relaxed">{provision}</span>
+              </div>
+            ))}
           </div>
         </section>
 
