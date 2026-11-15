@@ -118,7 +118,7 @@ export const Home: React.FC = () => {
                   <img
                     src="/images/al-balawneh-hero.jpg"
                     alt={language === 'ar' ? 'منطقة البلاونة - محافظة البلقاء، مركز تعاونية عمتا' : 'Al-Balawneh Region - Al-Balqa Governorate, Headquarters of Ammata Cooperative'}
-                    width="1672"
+                    width="1674"
                     height="940"
                     fetchPriority="high"
                     loading="eager"
